@@ -4,31 +4,31 @@ import json
 
 def lambda_handler(event, context):
   
-  openai.organization = "org-uDYGnAtAj6JZSVli5KOYHmLa"
-  openai.api_key = "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"
-    
+  # Log the event details
+  print(json.dumps(event))
+  
+  # Log the phrase given by the SIRI user
+  print(event["headers"]["gpt-phrase"])
+  
+  # Sets openai credentials
+  openai.organization = "INSERT ORGINIZATION NAME HERE" # eg "org-jhvfdshfvadshvsdauhvasdhvhvsajf"
+  openai.api_key = "INSERT KEY FROM OPENAI HERE" # eg "sk-shdygfADSAWDASDAWDuyhfgdsfgsfdh"
+  
+  # Retrieves the phrase given to siri through the "gpt-phrase" header and saves it as a variable
   text_to_ask = event["headers"]["gpt-phrase"]
   
+  # Creates a request to chatGPT 
   completion = openai.ChatCompletion.create(
-  model="gpt-3.5-turbo",
+  model="gpt-3.5-turbo", # Set the AI model you wish to use. See here for a list https://platform.openai.com/docs/models
   messages=[
-    {"role": "user", "content": text_to_ask}
+    {"role": "user", "content": text_to_ask} # The body of the message, with the content to send as the variable saved from SIRI
     ]
   )
   
-  print(json.dumps(event))
-  
+  # Save the chatGPT response as a variable. This will be returned
   notification = str(completion.choices[0].message.content)
   
-  # client = boto3.client('sns')
-  # response = client.publish(
-  #   TargetArn = "arn:aws:sns:ap-southeast-2:396735513237:TextFromGPT",
-  #   Message = json.dumps({'default': notification}),
-  #   MessageStructure = 'json'
-  #   )
-  
-  print(event["headers"]["gpt-phrase"])
-  
+  # Return a 200 success code and the chatGPT response as the body
   return {
     'statusCode': 200,
     'body': notification

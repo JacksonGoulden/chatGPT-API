@@ -1,15 +1,19 @@
+# This lambda function is used to receive the phrase given by the SIRI user, and then send it to chatGPT to get a response.
+
 import openai
 import json
 
 def lambda_handler(event, context):
   
-  # Log the event details
+  # Log the event details - for viewing later in CloudWatch
   print(json.dumps(event))
   
-  # Log the phrase given by the SIRI user
+  # Log the phrase given by the SIRI user - for viewing later in CloudWatch
   print(event["headers"]["gpt-phrase"])
   
-  # Sets openai credentials
+  # Sets openai credentials. These are found at:
+  # https://platform.openai.com/account/org-settings
+  # https://platform.openai.com/account/api-keys
   openai.organization = "INSERT ORGINIZATION NAME HERE" # eg "org-jhvfdshfvadshvsdauhvasdhvhvsajf"
   openai.api_key = "INSERT KEY FROM OPENAI HERE" # eg "sk-shdygfADSAWDASDAWDuyhfgdsfgsfdh"
   

@@ -3,7 +3,7 @@ Parameters:
   InstanceName:
     Type: String
     Description: Enter the name of your instance.
-    Default: LinuxInstance
+    Default: LinuxLambdaLayerOpenAI
 
 Resources:
   # EC2 Instance
@@ -15,7 +15,7 @@ Resources:
       IamInstanceProfile: !Ref InstanceProfile
       SecurityGroups:
         - !Ref SSHSecurityGroup
-      # Install Python, Pandas and Publish Lambda Layer
+      # Install Python, openai and Publish Lambda Layer
       UserData:
         Fn::Base64: |
           #!/bin/bash 

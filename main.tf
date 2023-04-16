@@ -1,3 +1,7 @@
+# Configure the AWS provider
+provider "aws" {
+  region = "ap-southeast-2"
+}
 
 resource "aws_lambda_layer_version" "lambda_layer" {
   filename   = "layer.zip"
@@ -12,30 +16,32 @@ data "archive_file" "lambda-app-zip" {
   output_path = "${path.module}/lambda_app.zip"
 }
 
-data "aws_iam_policy_document" "assume_role" {
-  statement {
-    effect = "Allow"
+resource "aws_iam_role" "lambda_exec" {
+  name = "serverless_example_lambda"
 
-    principals {
-      type        = "Service"
-      identifiers = ["lambda.amazonaws.com"]
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+        "Service": "lambda.amazonaws.com"
+      },
+      "Effect": "Allow",
+      "Sid": ""
     }
-
-    actions = ["sts:AssumeRole"]
-  }
+  ]
+}
+EOF
 }
 
-resource "aws_iam_role" "iam_for_lambda" {
-  name               = "openai-lambda-role"
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
-}
-
-resource "aws_lambda_function" "test_lambda" {
+resource "aws_lambda_function" "chatGPT-lambda" {
   # If the file is not in the current working directory you will need to include a
   # path.module in the filename.
   filename      = data.archive_file.lambda-app-zip.output_path
   function_name = "Siri-chatGPT"
-  role          = aws_iam_role.iam_for_lambda.arn
+  role          = aws_iam_role.lambda_exec.arn
   handler       = "index.test"
 
   layers = [aws_lambda_layer_version.lambda_layer.arn]

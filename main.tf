@@ -36,16 +36,47 @@ resource "aws_iam_role" "lambda_exec" {
 EOF
 }
 
+data "aws_iam_policy_document" "lambda-logging-policy" {
+  statement {
+    effect = "Allow"
+
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+    ]
+
+    resources = ["arn:aws:logs:*:*:*"]
+  }
+}
+
+resource "aws_iam_policy" "lambda_logging" {
+  name        = "lambda_logging"
+  path        = "/"
+  description = "IAM policy for logging from a lambda"
+  policy      = data.aws_iam_policy_document.lambda-logging-policy.json
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_logs" {
+  role       = aws_iam_role.lambda_exec.name
+  policy_arn = aws_iam_policy.lambda_logging.arn
+}
+
 resource "aws_lambda_function" "chatGPT-lambda" {
   # If the file is not in the current working directory you will need to include a
   # path.module in the filename.
   filename      = data.archive_file.lambda-app-zip.output_path
   function_name = "Siri-chatGPT"
   role          = aws_iam_role.lambda_exec.arn
-  handler       = "index.test"
+  handler       = "lambda_app.lambda_handler"
 
   layers = [aws_lambda_layer_version.lambda_layer.arn]
   
   runtime = "python3.9"
 
+}
+
+resource "aws_cloudwatch_log_group" "lambda-log-group" {
+  name              = "/aws/lambda/${aws_lambda_function.chatGPT-lambda.function_name}"
+  retention_in_days = 14
 }

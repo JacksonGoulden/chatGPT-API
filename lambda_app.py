@@ -11,7 +11,8 @@ def lambda_handler(event, context):
   # Log the phrase given by the SIRI user - for viewing later in CloudWatch
   print(event["headers"]["gpt-phrase"])
   
-  # Sets openai credentials. These are found at:
+  # Sets openai credentials. The application will fail without changing these values.
+  # These are found at:
   # https://platform.openai.com/account/org-settings
   # https://platform.openai.com/account/api-keys
   openai.organization = "INSERT ORGINIZATION NAME HERE" # eg "org-jhvfdshfvadshvsdauhvasdhvhvsajf"

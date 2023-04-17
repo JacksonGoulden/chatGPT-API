@@ -2,5 +2,6 @@
 terraform.tfstate
 terraform.tfstate.backup
 .terraform.lock.hcl
+.terraform
 terraform-provider*
 lambda_app.zip

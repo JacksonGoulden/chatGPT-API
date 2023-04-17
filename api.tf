@@ -70,49 +70,7 @@ resource "aws_lambda_permission" "lambda_API_permission" {
   source_arn = "${aws_api_gateway_rest_api.chatGPT-API-GW.execution_arn}/*"
 }
 
-/* resource "aws_api_gateway_stage" "production" {
-  deployment_id = aws_api_gateway_deployment.gpt-api-deployment.id
-  rest_api_id   = aws_api_gateway_rest_api.chatGPT-API-GW.id
-  stage_name    = "production"
-}
-
-resource "aws_api_gateway_usage_plan" "chatGPT-usage-plan" {
-  name         = "chatGPT-usage-plan"
-  description  = "describes how the API can be used"
-
-  api_stages {
-    api_id = aws_api_gateway_rest_api.chatGPT-API-GW.id
-    stage  = aws_api_gateway_stage.production.stage_name
-  }
-
-}
-
-resource "aws_api_gateway_usage_plan_key" "main" {
-  key_id        = aws_api_gateway_api_key.chatGPT-API-key.id
-  key_type      = "API_KEY"
-  usage_plan_id = aws_api_gateway_usage_plan.chatGPT-usage-plan.id
-}
-
-
-
-resource "aws_api_gateway_method_response" "response_200" {
-  rest_api_id = aws_api_gateway_rest_api.chatGPT-API-GW.id
-  resource_id = aws_api_gateway_resource.example_lambda_resource.id
-  http_method = aws_api_gateway_method.proxy.http_method
-  status_code = "200"
-}
-
-resource "aws_api_gateway_api_key" "chatGPT-API-key" {
-  name = "chatGPT-api-key"
-} */
-
 # Output the API endpoint URL and API key
 output "base_url" {
   value = "${aws_api_gateway_deployment.gpt-api-deployment.invoke_url}"
 }
-
-/* output "api_key" {
-  value = aws_api_gateway_api_key.chatGPT-API-key.value
-  sensitive = true
-} */
-

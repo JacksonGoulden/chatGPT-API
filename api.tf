@@ -31,6 +31,7 @@ resource "aws_api_gateway_integration" "example_lambda_integration" {
   uri                     = aws_lambda_function.chatGPT-lambda.invoke_arn
 }
 
+# Create a deployment for the API Gateway
 resource "aws_api_gateway_method" "proxy_root" {
   rest_api_id   = aws_api_gateway_rest_api.chatGPT-API-GW.id
   resource_id   = aws_api_gateway_rest_api.chatGPT-API-GW.root_resource_id
@@ -38,6 +39,7 @@ resource "aws_api_gateway_method" "proxy_root" {
   authorization = "NONE"
 }
 
+# Create an integration between the API Gateway method and the Lambda function
 resource "aws_api_gateway_integration" "lambda_root" {
   rest_api_id             = aws_api_gateway_rest_api.chatGPT-API-GW.id
   resource_id             = aws_api_gateway_method.proxy_root.resource_id
@@ -59,6 +61,7 @@ resource "aws_api_gateway_deployment" "gpt-api-deployment" {
   stage_name  = "dev"
 }
 
+# Create a Lambda permission to allow API Gateway to invoke the Lambda function
 resource "aws_lambda_permission" "lambda_API_permission" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"

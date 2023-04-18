@@ -91,7 +91,7 @@ The Siri shortcut app is created through the iOS shortcut app.
 
 <br>
 
-![Example pic 4](./readme-images/Siri-4.png)
+![Example pic 4](./readme-images/Siri-4.PNG)
 
 <br>
 

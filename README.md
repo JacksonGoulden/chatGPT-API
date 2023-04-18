@@ -42,7 +42,7 @@ The Siri shortcut app is created through the iOS shortcut app.
 
 The end result will look like this:
 
-![Siri shortcut app](./Readme-Images/Siri-Shortcut.PNG)
+![Siri shortcut app](./Readme-Images/Siri-Shortcut.PNG width=250)
 
 Open the iOS shortcut app.
 Tap the "+" button in the top right corner.

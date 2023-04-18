@@ -22,11 +22,15 @@ There are 2 parts to the set up.
 All the AWS resources are created automatically through Terraform.
 Ensure Terraform is installed, and that CLI access to your desired AWS account is configured with your credentials.
 
-Modify the lambda_app.py file to include your OpenAI API key and OpenAI orginization name.
+#### **-----IMPORTANT-----**
+**Modify the lambda_app.py file** to include your OpenAI API key and OpenAI orginization name.
 These 2 values can be found:
 
 - https://platform.openai.com/account/org-settings
 - https://platform.openai.com/account/api-keys
+
+<br>
+<br>
 
 Initialise Terraform:
 ```

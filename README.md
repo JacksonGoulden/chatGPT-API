@@ -44,13 +44,24 @@ The end result will look like this:
 
 ![Siri shortcut app](./Readme-Images/Siri-Shortcut.PNG)
 
-Open the iOS shortcut app.
-Tap the "+" button in the top right corner.
-Tap "Add Action".
-Search for "Ask for" and under "Scripting" tap "Ask for Input".
+1. Open the iOS shortcut app.
+2. Tap the "+" button in the top right corner.
+3. Tap "Add Action".
+4. Search for "Ask for" and under `Scripting` tap `Ask for Input`.
+5. Under `Prompt` enter whatever you would like Siri to say when the shortcut is triggered. eg "What would you like to ask chatGPT"
+6. Add a new action. In the search bar at the bottom of the screen search for "Url". Select `Url` under the `Web` section.
+7. Under `Url` enter the API Gateway endpoint that was outputted when the AWS resources were created. For example `https://5jsydgfs.execute-api.ap-southeast-2.amazonaws.com/dev`
+8. Add a new action. Under the `Web` section select `Get Contents of Url`.
+9. Ensure that the variable after "Get contents of" is `Provided Input`.
+10. Expand the `Get Contents of Url` action with the `>` icon.
+11. Expand the `Headers` section. Add a new header.
+- The header key is `gpt-phrase` 
+- The value is the variable `Provided Input`. The variable is selected at the to of the keyboard.
+12. Add a new action. Under the `Documents` section select `Get Text From Input`.
+13. Add a new action. Under the `Documents` section select `Show Result`.
 
-Add the following confiuration to the shortcut
+The shortcut app is now complete. To test it, trigger the shortcut app through Siri. eg "Hey Siri, start chatGPT". Siri will ask for a phrase to send to chatGPT. Say a phrase and Siri will read out chatGPT's response.
 
+# __Limitations__
 
-
-
+Siri will time out after 30 seconds. This means that if the response from chatGPT takes longer than 30 seconds, the shortcut will stop and the response will not be read out.

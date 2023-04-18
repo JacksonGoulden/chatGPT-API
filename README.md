@@ -1,27 +1,32 @@
 # __ChatGPT-Siri Introduction__
 
-This program provides integration between Siri and ChatGPT. It allows you to ask Siri a question and have chatGPT answer it - which Siri will  read out.
+This program provides integration between Siri and ChatGPT. It allows you to ask Siri a question and have ChatGPT answer it - which Siri will read out.
 
 ## _Operation Steps_  
   
-- You trigger the siri shortcut app through a phrase. eg "Hey Siri, start chatGPT"
-- Siri will ask for a phrase to send to chatGPT.
-- The shortcut app will send the question to an AWS API Gateway endpoint.  
-- The API gateway will trigger a lambda function. The lambda function will send the question to the OpenAI API with chatGPT as the model used.  
-- The API will return an answer. The lambda function will send chatGPT's response back to the shortcut app.  
+- You invoke the Siri shortcut through a phrase. eg "Hey Siri, start chatGPT"
+- Siri will ask for a phrase to send to ChatGPT.
+- The shortcut will send the question to an AWS API Gateway endpoint.  
+- The API gateway will trigger a Lambda function. The Lambda function will send the question to the OpenAI API with ChatGPT as the AI model used.  
+- The API will return an answer. The Lambda function will send ChatGPT's response back to the shortcut.  
 - The response will then be read out by Siri.  
 
 # __Set up__
 
 There are 2 parts to the set up.
-1. The first part is to set up the AWS resources. The AWS resources are created automatically through Terraform.
-2. The second part is to set up the Siri shortcut app. The Siri shortcut is created through the iOS shortcut app.
-
+1. Set up the AWS resources. The AWS resources are created automatically through Terraform.
+2. Set up the Siri shortcut. The Siri shortcut is created through the iOS shortcut.
 
 ## __AWS resources__
 
-All  the AWS resources are created through Terraform.
-Ensure Terraform is installed and CLI access to your desired AWS account is configured with your credentials.
+All the AWS resources are created automatically through Terraform.
+Ensure Terraform is installed, and that CLI access to your desired AWS account is configured with your credentials.
+
+Modify the lambda_app.py file to include your OpenAI API key and OpenAI orginization name.
+These 2 values can be found:
+
+- https://platform.openai.com/account/org-settings
+- https://platform.openai.com/account/api-keys
 
 Initialise Terraform:
 ```
@@ -51,12 +56,20 @@ The Siri shortcut app is created through the iOS shortcut app.
 4. Search for "Ask for" and under the `Scripting` category select `Ask for Input`.
 5. Under `Prompt` enter whatever you would like Siri to say when the shortcut is triggered. eg "What would you like to ask chatGPT".
 
-![Example pic 1](./Readme-Images/Siri-1.jpeg)
+<br>
+
+![Example pic 1](./readme-images/Siri-1.jpeg)
+
+<br>
 
 6. Add a new action by typing in the search bar at the bottom of the screen - search for "Url". Select `Url` under the `Web` category.
 7. In the `Url` field enter the API Gateway endpoint that was output when the AWS resources were created. For example `https://5jsydgfs.execute-api.ap-southeast-2.amazonaws.com/dev`.
 
-![Example pic 2](./Readme-Images/Siri-2.jpeg)
+<br>
+
+![Example pic 2](./readme-images/Siri-2.jpeg)
+
+<br>
 
 8. Add a new action. Under the `Web` section select `Get Contents of Url`.
 9. Expand the `Get Contents of Url` action with the `>` icon.
@@ -65,14 +78,22 @@ The Siri shortcut app is created through the iOS shortcut app.
 - The header key is `gpt-phrase` (this must be copied exactly)
 - The value is the variable `Provided Input` from the first step. The variable is selected at the top of the keyboard.
 
-![Example pic 3](./Readme-Images/Siri-3.jpeg)
+<br>
+
+![Example pic 3](./readme-images/Siri-3.jpeg)
+
+<br>
 
 12. Add a new action. Under the `Documents` section select `Get Text From Input`. 
 - This will automatically fill into "Get text from `Contents of URL`"
 13. Add a new action. Under the `Documents` section select `Show Result`. 
 - This will automatically fill into "Show `Text`".
 
-![Example pic 4](./Readme-Images/Siri-4.jpeg)
+<br>
+
+![Example pic 4](./readme-images/Siri-4.png)
+
+<br>
 
 14. Select "Done" up the top. The shortcut is now finished.
 15. Finally hold down on the shortcut app and select "Rename". The name of the shortcut is what Siri will use to trigger the shortcut app. eg "start chat". "Hey Siri, `start chat'`
@@ -85,5 +106,4 @@ The shortcut app is now complete. To test it, trigger the shortcut app through S
 
 Siri will time out after 30 seconds. This means that if the response from chatGPT takes longer than 30 seconds, the shortcut will stop and the response will not be read out.
 
-TF INIT
 ORG AND KEY

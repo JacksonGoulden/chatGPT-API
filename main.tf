@@ -83,6 +83,8 @@ resource "aws_lambda_function" "chatGPT-lambda" {
   
   runtime = "python3.9"
 
+  timeout = 45
+
 }
 
 # Create a log group for the Lambda function to send logs to

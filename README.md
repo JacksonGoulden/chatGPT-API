@@ -65,3 +65,6 @@ The shortcut app is now complete. To test it, trigger the shortcut app through S
 # __Limitations__
 
 Siri will time out after 30 seconds. This means that if the response from chatGPT takes longer than 30 seconds, the shortcut will stop and the response will not be read out.
+
+TF INIT
+ORG AND KEY

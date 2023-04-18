@@ -1,24 +1,35 @@
-# chatGPT-API
+# chatGPT-API Introduction
 
-This program provides a way to ask siri a question and have ChatGPT answer it. 
+This program provides integration between Siri chatGPT. It allows you to ask Siri a question and have chatGPT answer it.
 
-## How to use
+This is done through a Siri shortcut. The shortcut app will send the question to an AWS Api Gateway endpoint. The endpoint will trigger a lambda function. The lambda function will send the question to the chatGPT API. The API will return an answer. The lambda function will send chatGPT's response back to the shortcut app. The response will then be read out by Siri.
 
-Invoke the Siri shortcut through the shortcut app then ask Siri the question you would like to ask chatGPT.
+## How the operation works from the users perspective
 
-The shortcut app will send the question to an AWS Api Gateway endpoint. The endpoint will trigger a lambda function.
+Invoke the Siri shortcut through the shortcut app, then when prompted by Siri, ask Siri the question you would like to ask chatGPT.
 
-The lambda function will send the question to the chatGPT model. The model will return an answer. The lambda function will send chatGPT's response  back to the shortcut app.
+The response from chatGPG will then be read out by Siri.
 
-The response will then be read out by Siri.
+# Set up
 
-## How to set up
+There are 2 parts to the set up. The first part is to set up the AWS resources. The second part is to set up the Siri shortcut.
+The AWS resources are created through Terraform. The Siri shortcut is created through the iOS shortcut app.
 
-### AWS
+### AWS resources
 
-Create a lambda function. Copy all the text from `app.py` into the lambda function.
+All  the AWS resources are created through Terraform.
+If Terraform is not installed, install it from [here](https://www.terraform.io/downloads.html).
 
-Create a new lambda layer that has openai installed. Add the layer to the lambda function.
+To verify that Terraform is installed, run the following command:
+```
+> terraform -v
+```
+
+
+To deploy the AWS resources, run the following command:
+```
+> terraform apply
+```
 
 
 

@@ -23,11 +23,16 @@ There are 2 parts to the set up.
 All  the AWS resources are created through Terraform.
 Ensure Terraform is installed and CLI access to your desired AWS account is configured with your credentials.
 
-To deploy the AWS resources, run:
+Initialise Terraform:
+```
+> terraform init
+```
+  
+Deploy the AWS resources, run:
 ```
 > terraform apply
 ```
-
+  
 This will create the following resources:
 - A lambda function
 - An IAM role for the lambda function
@@ -40,27 +45,41 @@ This will output the API Gateway endpoint. This is the endpoint that the Siri sh
 
 The Siri shortcut app is created through the iOS shortcut app.
 
-The end result will look like this:
-
-![Siri shortcut app](./readme-images/Siri-Shortcut.PNG)
-
 1. Open the iOS shortcut app.
 2. Tap the "+" button in the top right corner.
 3. Tap "Add Action".
-4. Search for "Ask for" and under `Scripting` tap `Ask for Input`.
-5. Under `Prompt` enter whatever you would like Siri to say when the shortcut is triggered. eg "What would you like to ask chatGPT"
-6. Add a new action. In the search bar at the bottom of the screen search for "Url". Select `Url` under the `Web` section.
-7. Under `Url` enter the API Gateway endpoint that was outputted when the AWS resources were created. For example `https://5jsydgfs.execute-api.ap-southeast-2.amazonaws.com/dev`
-8. Add a new action. Under the `Web` section select `Get Contents of Url`.
-9. Ensure that the variable after "Get contents of" is `Provided Input`.
-10. Expand the `Get Contents of Url` action with the `>` icon.
-11. Expand the `Headers` section. Add a new header.
-- The header key is `gpt-phrase` 
-- The value is the variable `Provided Input`. The variable is selected at the to of the keyboard.
-12. Add a new action. Under the `Documents` section select `Get Text From Input`.
-13. Add a new action. Under the `Documents` section select `Show Result`.
+4. Search for "Ask for" and under the `Scripting` category select `Ask for Input`.
+5. Under `Prompt` enter whatever you would like Siri to say when the shortcut is triggered. eg "What would you like to ask chatGPT".
 
-The shortcut app is now complete. To test it, trigger the shortcut app through Siri. eg "Hey Siri, start chatGPT". Siri will ask for a phrase to send to chatGPT. Say a phrase and Siri will read out chatGPT's response.
+![Example pic 1](./Readme-Images/Siri-1.jpeg)
+
+6. Add a new action by typing in the search bar at the bottom of the screen - search for "Url". Select `Url` under the `Web` category.
+7. In the `Url` field enter the API Gateway endpoint that was output when the AWS resources were created. For example `https://5jsydgfs.execute-api.ap-southeast-2.amazonaws.com/dev`.
+
+![Example pic 2](./Readme-Images/Siri-2.jpeg)
+
+8. Add a new action. Under the `Web` section select `Get Contents of Url`.
+9. Expand the `Get Contents of Url` action with the `>` icon.
+10. The method should be `GET`. Leave this as is.
+11. Expand the `Headers` section. Add a new header.
+- The header key is `gpt-phrase` (this must be copied exactly)
+- The value is the variable `Provided Input` from the first step. The variable is selected at the top of the keyboard.
+
+![Example pic 3](./Readme-Images/Siri-3.jpeg)
+
+12. Add a new action. Under the `Documents` section select `Get Text From Input`. 
+- This will automatically fill into "Get text from `Contents of URL`"
+13. Add a new action. Under the `Documents` section select `Show Result`. 
+- This will automatically fill into "Show `Text`".
+
+![Example pic 4](./Readme-Images/Siri-4.jpeg)
+
+14. Select "Done" up the top. The shortcut is now finished.
+15. Finally hold down on the shortcut app and select "Rename". The name of the shortcut is what Siri will use to trigger the shortcut app. eg "start chat". "Hey Siri, `start chat'`
+
+<br>
+
+The shortcut app is now complete. To test it, trigger the shortcut app through Siri. eg "Hey Siri, start chat". Siri will ask for a phrase to send to chatGPT. Say a phrase and Siri will read out chatGPT's response.
 
 # __Limitations__
 
